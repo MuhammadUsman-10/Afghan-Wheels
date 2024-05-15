@@ -2,10 +2,10 @@ import React from "react";
 import { Container, Row, Col } from "reactstrap";
 import Helmet from "../components/Helmet/Helmet";
 import CommonSection from "../components/UI/CommonSection";
-import CarItem from "../components/UI/CarItem";
-import carData from "../assets/data/carData";
+import PartItem from "../components/UI/autopartsItem";
+import autopartsData from "../assets/data/autopartsData";
 
-const CarListing = () => {
+const PartsListing = () => {
     return (
         <Helmet title="AutoParts">
         <CommonSection title="Auto Parts" />
@@ -27,8 +27,8 @@ const CarListing = () => {
                 </div>
                 </Col>
 
-                {carData.map((item) => (
-                <CarItem item={item} key={item.id} />
+                {autopartsData.map((item) => (
+                <PartItem item={item} key={item.id} />
                 ))}
             </Row>
             </Container>
@@ -37,4 +37,4 @@ const CarListing = () => {
     );
 };
 
-export default CarListing;
+export default PartsListing;

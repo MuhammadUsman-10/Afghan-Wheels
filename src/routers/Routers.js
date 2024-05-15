@@ -4,7 +4,7 @@ import Home from "../pages/Home";
 import About from "../pages/About";
 import CarListing from "../pages/CarListing";
 import CarDetails from "../pages/CarDetails";
-import AutoParts from "../pages/AutoParts";
+import AutoParts from "../pages/AutoPartsListing";
 import AutoPartsDetails from "../pages/AutoPartsDetails";
 import Blog from "../pages/Blog";
 import BlogDetails from "../pages/BlogDetails";

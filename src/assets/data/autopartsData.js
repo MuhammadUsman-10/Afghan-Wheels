@@ -1,26 +1,24 @@
 // import all images from assets/images directory
-import img01 from "../all-images/cars-img/nissan-offer.png";
-import img02 from "../all-images/cars-img/offer-toyota.png";
-import img03 from "../all-images/cars-img/bmw-offer.png";
-import img04 from "../all-images/cars-img/nissan-offer.png";
-import img05 from "../all-images/cars-img/offer-toyota.png";
-import img06 from "../all-images/cars-img/mercedes-offer.png";
-import img07 from "../all-images/cars-img/toyota-offer-2.png";
-import img08 from "../all-images/cars-img/mercedes-offer.png";
+import img01 from "../all-images/autoparts-img/brake disc.jpg";
+import img02 from "../all-images/autoparts-img/tyres.jpg";
+import img03 from "../all-images/autoparts-img/air filter.png";
+import img04 from "../all-images/autoparts-img/battery.png";
+import img05 from "../all-images/autoparts-img/coillovers.jpg";
+import img06 from "../all-images/autoparts-img/gear system.png";
+import img07 from "../all-images/autoparts-img/headlights.jpg";
+import img08 from "../all-images/autoparts-img/plug ignition.png";
+import img09 from "../all-images/autoparts-img/turbo.jpg";
 
-const carData = [
+const autopartsData = [
     {
         id: 1,
         brand: "Tesla",
-        rating: 112,
-        carName: "Tesla Malibu",
+        rating: '100K+',
+        partName: "Brake Callipers",
         imgUrl: img01,
         model: "Model 3",
-        price: 50,
+        price: "5000",
         speed: "20kmpl",
-        gps: "GPS Navigation",
-        seatType: "Heated seats",
-        automatic: "Automatic",
         description:
         " Dolor labore lorem no accusam sit justo sadipscing labore invidunt voluptua, amet duo et gubergren vero gubergren dolor. At diam. Dolor labore lorem no accusam sit justo sadipscing labore invidunt voluptua, amet duo et gubergren vero gubergren dolor. At diam.",
     },
@@ -29,14 +27,11 @@ const carData = [
         id: 2,
         brand: "Toyota",
         rating: 102,
-        carName: "Toyota Aventador",
+        partName: "Leather Tyres",
         imgUrl: img02,
         model: "Model-2022",
         price: 50,
         speed: "20kmpl",
-        gps: "GPS Navigation",
-        seatType: "Heated seats",
-        automatic: "Automatic",
         description:
         " Dolor labore lorem no accusam sit justo sadipscing labore invidunt voluptua, amet duo et gubergren vero gubergren dolor. At diam. Dolor labore lorem no accusam sit justo sadipscing labore invidunt voluptua, amet duo et gubergren vero gubergren dolor. At diam.",
     },
@@ -45,14 +40,11 @@ const carData = [
         id: 3,
         brand: "BMW",
         rating: 132,
-        carName: "BMW X3",
+        partName: "Air Filter System",
         imgUrl: img03,
         model: "Model-2022",
         price: 65,
         speed: "20kmpl",
-        gps: "GPS Navigation",
-        seatType: "Heated seats",
-        automatic: "Automatic",
         description:
         " Dolor labore lorem no accusam sit justo sadipscing labore invidunt voluptua, amet duo et gubergren vero gubergren dolor. At diam. Dolor labore lorem no accusam sit justo sadipscing labore invidunt voluptua, amet duo et gubergren vero gubergren dolor. At diam.",
     },
@@ -61,14 +53,11 @@ const carData = [
         id: 4,
         brand: "Nissan",
         rating: 102,
-        carName: "Nissan Mercielago",
+        partName: "Car Battery",
         imgUrl: img04,
         model: "Model-2022",
-        price: 70,
+        price: 7000,
         speed: "20kmpl",
-        gps: "GPS Navigation",
-        seatType: "Heated seats",
-        automatic: "Automatic",
         description:
         " Dolor labore lorem no accusam sit justo sadipscing labore invidunt voluptua, amet duo et gubergren vero gubergren dolor. At diam. Dolor labore lorem no accusam sit justo sadipscing labore invidunt voluptua, amet duo et gubergren vero gubergren dolor. At diam.",
     },
@@ -77,14 +66,11 @@ const carData = [
         id: 5,
         brand: "Ferrari",
         rating: 94,
-        carName: "Ferrari Camry",
+        partName: "Coilovers",
         imgUrl: img05,
         model: "Model-2022",
         price: 45,
         speed: "20kmpl",
-        gps: "GPS Navigation",
-        seatType: "Heated seats",
-        automatic: "Automatic",
         description:
         " Dolor labore lorem no accusam sit justo sadipscing labore invidunt voluptua, amet duo et gubergren vero gubergren dolor. At diam. Dolor labore lorem no accusam sit justo sadipscing labore invidunt voluptua, amet duo et gubergren vero gubergren dolor. At diam.",
     },
@@ -93,14 +79,11 @@ const carData = [
         id: 6,
         brand: "Mercedes",
         rating: 119,
-        carName: "Mercedes Benz XC90",
+        partName: "Gears System",
         imgUrl: img06,
         model: "Model-2022",
         price: 85,
         speed: "20kmpl",
-        gps: "GPS Navigation",
-        seatType: "Heated seats",
-        automatic: "Automatic",
         description:
         " Dolor labore lorem no accusam sit justo sadipscing labore invidunt voluptua, amet duo et gubergren vero gubergren dolor. At diam. Dolor labore lorem no accusam sit justo sadipscing labore invidunt voluptua, amet duo et gubergren vero gubergren dolor. At diam.",
     },
@@ -109,14 +92,11 @@ const carData = [
         id: 7,
         brand: "Audi",
         rating: 82,
-        carName: "Audi Fiesta",
+        partName: "Car Headlights",
         imgUrl: img07,
         model: "Model 3",
         price: 50,
         speed: "20kmpl",
-        gps: "GPS Navigation",
-        seatType: "Heated seats",
-        automatic: "Automatic",
         description:
         " Dolor labore lorem no accusam sit justo sadipscing labore invidunt voluptua, amet duo et gubergren vero gubergren dolor. At diam. Dolor labore lorem no accusam sit justo sadipscing labore invidunt voluptua, amet duo et gubergren vero gubergren dolor. At diam.",
     },
@@ -125,17 +105,26 @@ const carData = [
         id: 8,
         brand: "Colorado",
         rating: 52,
-        carName: "Rolls Royce Colorado",
+        partName: "Car Exhaust Plug Ignition",
         imgUrl: img08,
         model: "Model 3",
         price: 50,
         speed: "20kmpl",
-        gps: "GPS Navigation",
-        seatType: "Heated seats",
-        automatic: "Automatic",
         description:
         " Dolor labore lorem no accusam sit justo sadipscing labore invidunt voluptua, amet duo et gubergren vero gubergren dolor. At diam. Dolor labore lorem no accusam sit justo sadipscing labore invidunt voluptua, amet duo et gubergren vero gubergren dolor. At diam.",
     },
+    {
+        id: 1,
+        brand: "Tesla",
+        rating: 112,
+        partName: "Turbo Air Intake",
+        imgUrl: img09,
+        model: "Model 3",
+        price: 50,
+        speed: "20kmpl",
+        description:
+        " Dolor labore lorem no accusam sit justo sadipscing labore invidunt voluptua, amet duo et gubergren vero gubergren dolor. At diam. Dolor labore lorem no accusam sit justo sadipscing labore invidunt voluptua, amet duo et gubergren vero gubergren dolor. At diam.",
+    }
 ];
 
-export default carData;
+export default autopartsData;
