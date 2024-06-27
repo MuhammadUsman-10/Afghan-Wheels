@@ -50,7 +50,7 @@ const Login = ({onLogin}) => {
         const User = response.data.user;  // assuming the response includes user data
 
         // Save user data in localStorage
-        localStorage.setItem('user', JSON.stringify(User));
+        localStorage.setItem('user', JSON.stringify('token'));
 
         // Update the parent component with the login status and user data
         onLogin(User);

@@ -30,12 +30,45 @@ const Contact = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
-  const [errors, setErrors] = useState([]);
+  const [errorMessage, setErrorMessage] = useState([]);
   const [successMessage, setSuccessMessage] = useState('');
 
   const navigate = useNavigate();
 
-  const handleSubmit = async () => {
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const handleSubmit = async (event) => {
+    
+    event.preventDefault();
+
+    // Manual validation
+    if (!name && !email && !message) {
+      setErrorMessage('Please fill in all required fields.');
+      return;
+    }
+    if (!name && !message) {
+      setErrorMessage('Please fill in all required fields.');
+      return;
+    }
+    if (!name) {
+      setErrorMessage('Please enter Name.');
+      return;
+    }
+    if (!email) {
+      setErrorMessage('Please enter Email.');
+      return;
+    }
+    if (!validateEmail(email)) {
+      setErrorMessage('Please enter valid Email.');
+      return;
+    }
+    if (!message) {
+      setErrorMessage('Please enter Message.');
+      return;
+    }
     try {
       const response = await axios.post('http://localhost:4000/api/submit', {
         name,
@@ -48,15 +81,13 @@ const Contact = () => {
       console.log(response.data);
       setSuccessMessage('Form Submitted successfully');
       
-      // Redirect to Submit component after a brief delay
-      setTimeout(() => {
-        navigate('/Contact');
-      }, 2000);
+      // Redirect to Submit component 
+      navigate('/Contact');
     } 
     catch (error) {
       // Handle submit errors
       if (error.response && error.response.data) {
-        setErrors(error.response.data.errors);
+        setErrorMessage(error.response.data.errors);
       } 
       else {
         console.error('Error Submitting Form:', error.message);
@@ -103,6 +134,8 @@ const Contact = () => {
                   Send Message
                 </button>
               </Form>
+              {errorMessage && <p style={{color: 'red'}}>{errorMessage}</p>}
+              {successMessage && <p style={{color: 'green'}}>{successMessage}</p>}
             </Col>
 
             <Col lg="5" md="5">

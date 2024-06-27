@@ -53,8 +53,8 @@ const Header = () => {
       display: "AutoParts",
     },
     {
-      path: "/blogs",
-      display: "BLogs",
+      path: "/videos",
+      display: "Videos",
     },
     {
       path: "/contact",
