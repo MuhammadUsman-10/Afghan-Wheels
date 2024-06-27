@@ -9,6 +9,12 @@
     font-size: 1.1rem;
 }
 
+.part_img {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .part_item-btn {
     border-radius: 0;
     border: none;

@@ -128,7 +128,7 @@ const carData = [
     carName: "Mercedez Benz C63",
     imgUrl: img08,
     model: "Model 3",
-    price: 50,
+    price: 2500000,
     speed: "250 Km/h",
     gps: "GPS Navigation",
     seatType: "Heated seats",

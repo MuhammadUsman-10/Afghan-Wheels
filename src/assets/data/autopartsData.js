@@ -25,7 +25,7 @@ const autopartsData = [
         rating: 102,
         partName: "Leather Tyres",
         imgUrl: img02,
-        price: 50,
+        price: 10000,
         description:
         " Dolor labore lorem no accusam sit justo sadipscing labore invidunt voluptua, amet duo et gubergren vero gubergren dolor. At diam. Dolor labore lorem no accusam sit justo sadipscing labore invidunt voluptua, amet duo et gubergren vero gubergren dolor. At diam.",
     },
@@ -35,7 +35,7 @@ const autopartsData = [
         rating: 132,
         partName: "Air Filter System",
         imgUrl: img03,
-        price: 65,
+        price: 6500,
         description:
         " Dolor labore lorem no accusam sit justo sadipscing labore invidunt voluptua, amet duo et gubergren vero gubergren dolor. At diam. Dolor labore lorem no accusam sit justo sadipscing labore invidunt voluptua, amet duo et gubergren vero gubergren dolor. At diam.",
     },
@@ -45,7 +45,7 @@ const autopartsData = [
         rating: 102,
         partName: "Car Battery",
         imgUrl: img04,
-        price: 7000,
+        price: 15000,
         description:
         " Dolor labore lorem no accusam sit justo sadipscing labore invidunt voluptua, amet duo et gubergren vero gubergren dolor. At diam. Dolor labore lorem no accusam sit justo sadipscing labore invidunt voluptua, amet duo et gubergren vero gubergren dolor. At diam.",
     },
@@ -55,7 +55,7 @@ const autopartsData = [
         rating: 94,
         partName: "Coilovers",
         imgUrl: img05,
-        price: 45,
+        price: 25000,
         description:
         " Dolor labore lorem no accusam sit justo sadipscing labore invidunt voluptua, amet duo et gubergren vero gubergren dolor. At diam. Dolor labore lorem no accusam sit justo sadipscing labore invidunt voluptua, amet duo et gubergren vero gubergren dolor. At diam.",
     },
@@ -65,7 +65,7 @@ const autopartsData = [
         rating: 119,
         partName: "Gears System",
         imgUrl: img06,
-        price: 85,
+        price: 85000,
         description:
         " Dolor labore lorem no accusam sit justo sadipscing labore invidunt voluptua, amet duo et gubergren vero gubergren dolor. At diam. Dolor labore lorem no accusam sit justo sadipscing labore invidunt voluptua, amet duo et gubergren vero gubergren dolor. At diam.",
     },
@@ -75,7 +75,7 @@ const autopartsData = [
         rating: 82,
         partName: "Car Headlights",
         imgUrl: img07,
-        price: 50,
+        price: 50000,
         description:
         " Dolor labore lorem no accusam sit justo sadipscing labore invidunt voluptua, amet duo et gubergren vero gubergren dolor. At diam. Dolor labore lorem no accusam sit justo sadipscing labore invidunt voluptua, amet duo et gubergren vero gubergren dolor. At diam.",
     },
@@ -85,7 +85,7 @@ const autopartsData = [
         rating: 52,
         partName: "Car Plug Ignition",
         imgUrl: img08,
-        price: 50,
+        price: 8000,
         description:
         " Dolor labore lorem no accusam sit justo sadipscing labore invidunt voluptua, amet duo et gubergren vero gubergren dolor. At diam. Dolor labore lorem no accusam sit justo sadipscing labore invidunt voluptua, amet duo et gubergren vero gubergren dolor. At diam.",
     },
@@ -94,7 +94,7 @@ const autopartsData = [
         rating: 112,
         partName: "Turbo Air Intake",
         imgUrl: img09,
-        price: 50,
+        price: 50000,
         description:
         " Dolor labore lorem no accusam sit justo sadipscing labore invidunt voluptua, amet duo et gubergren vero gubergren dolor. At diam. Dolor labore lorem no accusam sit justo sadipscing labore invidunt voluptua, amet duo et gubergren vero gubergren dolor. At diam.",
     }

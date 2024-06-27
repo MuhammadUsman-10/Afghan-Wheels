@@ -20,7 +20,7 @@ const PartDetails = () => {
             <Container>
             <Row>
                 <Col lg="6">
-                <img src={singlepartItem.imgUrl} alt="" className="w-90" />
+                <img src={singlepartItem.imgUrl} alt="" className="w-80" />
                 </Col>
 
                 <Col lg="6">
@@ -29,7 +29,7 @@ const PartDetails = () => {
 
                     <div className=" d-flex align-items-center gap-5 mb-4 mt-3">
                         <h6 className="rent__price fw-bold fs-4">
-                            ${singlepartItem.price}.00
+                            AFN {singlepartItem.price}.00
                         </h6>
 
                         <span className=" d-flex align-items-center gap-2">
@@ -47,26 +47,6 @@ const PartDetails = () => {
                     <p className="section__description">
                     {singlepartItem.description}
                     </p>
-
-                    <div className=" d-flex align-items-center mt-3" style={{ columnGap: "4rem" }} >
-                        <span className=" d-flex align-items-center gap-1 section__description">
-                            <i
-                            className="ri-roadster-line"
-                            style={{ color: "#f9a826" }}
-                            ></i>{" "}
-                            {singlepartItem.model}
-                        </span>
-                    </div>
-
-                    <div className=" d-flex align-items-center mt-3" style={{ columnGap: "2.8rem" }} >
-                        <span className=" d-flex align-items-center gap-1 section__description">
-                            <i
-                            className="ri-building-2-line"
-                            style={{ color: "#f9a826" }}
-                            ></i>{" "}
-                            {singlepartItem.brand}
-                        </span>
-                    </div>
                 </div>
                 </Col>
 

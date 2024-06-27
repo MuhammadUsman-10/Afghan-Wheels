@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import "../../styles/car-item.css";
 
 const CarItem = (props) => {
-  const { imgUrl, model, carName, automatic, speed, price } = props.item;
+  const { imgUrl, model, carName, category, speed, price } = props.item;
 
   return (
     <Col lg="4" md="4" sm="6" className="mb-5">
@@ -24,7 +24,7 @@ const CarItem = (props) => {
               <i className="ri-car-line"></i> {model}
             </span>
             <span className=" d-flex align-items-center gap-1">
-              <i className="ri-settings-2-line"></i> {automatic}
+              <i className="ri-settings-2-line"></i> {category}
             </span>
             <span className=" d-flex align-items-center gap-1">
               <i className="ri-timer-flash-line"></i> {speed}
