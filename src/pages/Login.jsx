@@ -1,13 +1,81 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import {React, useState} from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { Container, Row, Col, Form, FormGroup, Input } from "reactstrap";
 import Helmet from "../components/Helmet/Helmet";
 import CommonSection from "../components/UI/CommonSection";
-
+import axios from "axios";
 import "../styles/contact.css";
 
 
-const Login = () => {
+const Login = ({onLogin}) => {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
+    const [successMessage, setSuccessMessage] = useState('');
+    const navigate = useNavigate();
+
+    const validateEmail = (email) => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    };
+
+    const handleSignIn = async (event) => {
+        
+        event.preventDefault();
+
+        // Manual validation
+        if (!email && !password) {
+            setErrorMessage('Please fill in all required fields.');
+            return;
+        }
+        if (!email) {
+            setErrorMessage('Please enter Email.');
+            return;
+        }
+        if (!validateEmail(email)) {
+            setErrorMessage('Please enter valid Email.');
+            return;
+        }
+        
+        if (!password) {
+            setErrorMessage('Please enter password.');
+            return;
+        }
+        try {
+        const response = await axios.post('http://localhost:4000/api/signin', {
+            email,
+            password,
+        });
+
+        const User = response.data.user;  // assuming the response includes user data
+
+        // Save user data in localStorage
+        localStorage.setItem('user', JSON.stringify(User));
+
+        // Update the parent component with the login status and user data
+        onLogin(User);
+
+        // Handle successful sign-in
+        console.log(response.data);
+        setSuccessMessage('User Login successfully');
+
+        // Redirect to Home component after successful sign-in
+        navigate('/');
+
+        // Display success message (you may customize this message)
+        alert('Login successful');
+        } catch (error) {
+        // Handle sign-in errors
+        if (error.response && error.response.status === 404) {
+            setErrorMessage('User not found');
+        } else if (error.response && error.response.status === 401) {
+            setErrorMessage('Invalid password');
+        } else {
+            console.error('Error signing in:', error.message);
+            setErrorMessage('Error signing in. Please try again.');
+        }
+        }
+    };
     return (
         <Helmet title="Login">
         <CommonSection title="Login" />
@@ -17,19 +85,23 @@ const Login = () => {
                 <Col lg="7" md="7">
                 <h6 className="fw-bold mb-4">Login to Afghan Wheels</h6>
 
-                <Form>
+                <Form onSubmit={handleSignIn}>
                     <FormGroup className="contact__form">
-                    <Input placeholder="Email" type="email" required/>
+                    <Input placeholder="Email" type="email" 
+                    value={email} onChange={(e)=>setEmail(e.target.value)} />
                     </FormGroup>
                     
                     <FormGroup className="contact__form">
-                    <Input placeholder="Password" type="password" required/>
+                    <Input placeholder="Password" type="password" 
+                    value={password} onChange={(e)=>setPassword(e.target.value)} />
                     </FormGroup>
 
+                    {errorMessage && <p style={{color: 'red'}}>{errorMessage}</p>}
+                    {successMessage && <p style={{color: 'green'}}>{successMessage}</p>}
                     <p>
                     Don't have an account? <Link to="/register">SignUp Here</Link>
                     </p>
-                    <button className=" contact__btn" >
+                    <button className="contact__btn" type='button' onClick={handleSignIn}>
                     Login
                     </button>
                 </Form>

@@ -1,8 +1,9 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import { React, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { Container, Row, Col, Form, FormGroup, Input } from "reactstrap";
 import Helmet from "../components/Helmet/Helmet";
 import CommonSection from "../components/UI/CommonSection";
+import axios from "axios";
 
 import "../styles/contact.css";
 
@@ -26,6 +27,42 @@ const socialLinks = [
 ];
 
 const Contact = () => {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
+  const [errors, setErrors] = useState([]);
+  const [successMessage, setSuccessMessage] = useState('');
+
+  const navigate = useNavigate();
+
+  const handleSubmit = async () => {
+    try {
+      const response = await axios.post('http://localhost:4000/api/submit', {
+        name,
+        email,
+        message,
+      });
+
+
+      // Handle successful submit
+      console.log(response.data);
+      setSuccessMessage('Form Submitted successfully');
+      
+      // Redirect to Submit component after a brief delay
+      setTimeout(() => {
+        navigate('/Contact');
+      }, 2000);
+    } 
+    catch (error) {
+      // Handle submit errors
+      if (error.response && error.response.data) {
+        setErrors(error.response.data.errors);
+      } 
+      else {
+        console.error('Error Submitting Form:', error.message);
+      }
+    }
+  };
   return (
     <Helmet title="Contact">
       <CommonSection title="Contact" />
@@ -36,21 +73,33 @@ const Contact = () => {
               <h6 className="fw-bold mb-4">Get In Touch</h6>
 
               <Form>
-                <FormGroup className="contact__form">
-                  <Input placeholder="Your Name" type="text" />
+                <FormGroup className="contact__form">                  
+                  <Input 
+                    placeholder="Name"
+                    type="text" 
+                    value={name} 
+                    onChange={(e) => setName(e.target.value)} 
+                  />
                 </FormGroup>
                 <FormGroup className="contact__form">
-                  <Input placeholder="Email" type="email" />
+                  <Input 
+                    placeholder="Email"
+                    type="email" 
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
                 </FormGroup>
                 <FormGroup className="contact__form">
                   <textarea
                     rows="5"
                     placeholder="Message"
                     className="textarea"
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
                   ></textarea>
                 </FormGroup>
 
-                <button className=" contact__btn" type="submit">
+                <button className="contact__btn" type="submit" onClick={handleSubmit}>
                   Send Message
                 </button>
               </Form>
@@ -60,16 +109,16 @@ const Contact = () => {
               <div className="contact__info">
                 <h6 className="fw-bold">Contact Information</h6>
                 <p className="section__description mb-0">
-                  123 ZindaBazar, Sylhet, Bangladesh
+                  123 ZindaBazar, Kabul, Afghanitan
                 </p>
                 <div className=" d-flex align-items-center gap-2">
                   <h6 className="fs-6 mb-0">Phone:</h6>
-                  <p className="section__description mb-0">+88683896366</p>
+                  <p className="section__description mb-0">+0995345875365</p>
                 </div>
 
                 <div className=" d-flex align-items-center gap-2">
                   <h6 className="mb-0 fs-6">Email:</h6>
-                  <p className="section__description mb-0">example@gmail.com</p>
+                  <p className="section__description mb-0">afghanwheels@gmail.com</p>
                 </div>
 
                 <h6 className="fw-bold mt-4">Follow Us</h6>

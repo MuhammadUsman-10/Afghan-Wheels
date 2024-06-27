@@ -1,53 +1,81 @@
-import React, { useRef } from "react";
-
-import { Container, Row, Col } from "reactstrap";
-import { Link, NavLink } from "react-router-dom";
+import React, { useState, useEffect, useRef } from "react";
+import { Container, Row, Col, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from "reactstrap";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import "../../styles/header.css";
 
-const navLinks = [
-  {
-    path: "/home",
-    display: "Home",
-  },
-  {
-    path: "/about",
-    display: "About",
-  },
-  {
-    path: "/cars",
-    display: "Cars",
-  },
-  {
-    path: "/autoparts",
-    display: "AutoParts",
-  },
-  {
-    path: "/blogs",
-    display: "Videos",
-  },
-  {
-    path: "/contact",
-    display: "Contact",
-  },
-  {
-    path: "/login",
-    display: "Login",
-  },
-  {
-    path: "/register",
-    display: "Register",
-  }
-];
-
 const Header = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [User, setUser] = useState(null);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
   const menuRef = useRef(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+  // Check if user data is saved in localStorage
+    const savedUser = JSON.parse(localStorage.getItem('User'));
+    console.log('savedUser from localStorage:', savedUser);
+    if (savedUser) {
+      try {
+        const parsedUser = JSON.parse(savedUser);
+        setIsLoggedIn(true);
+        setUser(parsedUser);
+      } catch (error) {
+        console.error("Failed to parse user data from localStorage:", error);
+      }setUser(savedUser);
+    }
+  }, []);
+
+  const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
+
+  const handleLogout = () => {
+      localStorage.removeItem('User');
+      setIsLoggedIn(false);
+      setUser(null);
+      navigate('/login');
+  };
 
   const toggleMenu = () => menuRef.current.classList.toggle("menu__active");
+  const navLinks = [
+    {
+      path: "/home",
+      display: "Home",
+    },
+    {
+      path: "/about",
+      display: "About",
+    },
+    {
+      path: "/cars",
+      display: "Cars",
+    },
+    {
+      path: "/autoparts",
+      display: "AutoParts",
+    },
+    {
+      path: "/blogs",
+      display: "BLogs",
+    },
+    {
+      path: "/contact",
+      display: "Contact",
+    },
+    ...(!isLoggedIn ? [
+      {
+        path: "/login",
+        display: "Login",
+      },
+      {
+        path: "/register",
+        display: "Register",
+      }
+    ] : [])
+  ];
 
   return (
     <header className="header">
       {/* ============ header top ============ */}
-      {/* <div className="header__top">
+      <div className="header__top">
         <Container>
           <Row>
             <Col lg="6" md="6" sm="6">
@@ -61,18 +89,18 @@ const Header = () => {
 
             <Col lg="6" md="6" sm="6">
               <div className="header__top__right d-flex align-items-center justify-content-end gap-3">
-                <Link to="#" className=" d-flex align-items-center gap-1">
+                <Link to="/login" className=" d-flex align-items-center gap-1">
                   <i class="ri-login-circle-line"></i> Login
                 </Link>
 
-                <Link to="#" className=" d-flex align-items-center gap-1">
+                <Link to="register" className=" d-flex align-items-center gap-1">
                   <i class="ri-user-line"></i> Register
                 </Link>
               </div>
             </Col>
           </Row>
         </Container>
-      </div> */}
+      </div>
 
       {/* =============== header middle =========== */}
       <div className="header__middle">
@@ -163,6 +191,17 @@ const Header = () => {
                   <i className="ri-search-line"></i>
                 </span>
               </div>
+              {isLoggedIn && User && (
+                <Dropdown nav isOpen={dropdownOpen} toggle={toggleDropdown}>
+                  <DropdownToggle nav caret>
+                    {User.firstname[0].toUpperCase()}{User.lastname[0].toUpperCase()}
+                  </DropdownToggle>
+                  <DropdownMenu>
+                    <DropdownItem onClick={() => navigate('/userprofile')}>User Profile</DropdownItem>
+                    <DropdownItem onClick={handleLogout}>Logout</DropdownItem>
+                  </DropdownMenu>
+                </Dropdown>
+              )}
             </div>
           </div>
         </Container>
