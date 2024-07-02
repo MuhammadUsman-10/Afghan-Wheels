@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const userRoutes = require('./routes/userRoutes.js');
 const adminRoutes = require('./routes/adminRoutes.js');
+const carsRoutes = require('./routes/carsRoutes.js');
 const contactformRoutes = require('./routes/contactformRoutes.js');
 const cors = require('cors');
 
@@ -29,6 +30,9 @@ app.use('/api', login);
 const admin = require('./routes/adminRoutes.js');
 app.use('/api', admin);
 
+const search = require('./routes/carsRoutes.js');
+app.use('/api', search);
+
 const submit = require('./routes/contactformRoutes.js');
 app.use('/api', submit);
 
@@ -39,6 +43,7 @@ db.once('open', () => {
 
   app.use('/', userRoutes); // Mounting user authentication routes
   app.use('/', adminRoutes); // Mounting admin authentication routes // Mounting product authentication routes
+  app.use('/', carsRoutes);
   app.use('/', contactformRoutes);
 
   // Home page route

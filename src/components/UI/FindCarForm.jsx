@@ -10,8 +10,8 @@ const FindCarForm = () => {
     make: 'selectmake',
     model: 'selectmodel',
     city: '',
-    budget: '',
-    transmission: 'ac'
+    price: '',
+    variant: 'selectvariant'
   });
 
   const handleChange = (e) => {
@@ -22,7 +22,7 @@ const FindCarForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:4000/api/carsroute/search', {
+      const response = await fetch('http://localhost:4000/api/searchcar', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -49,11 +49,8 @@ const FindCarForm = () => {
         <FormGroup className="select__group">
           <select name="category" value={formData.category} onChange={handleChange}>
           <option value="selectcategory">Category</option>
-            <option value="newcars">New Cars</option>
-            <option value="usedcars">Used Cars</option>
-            <option value="category">Sedan</option>
-            <option value="category">SUV</option>
-            <option value="ac">Family Car</option>
+            <option value="category">New Cars</option>
+            <option value="category">Used Cars</option>
           </select>
         </FormGroup>
 
@@ -62,41 +59,39 @@ const FindCarForm = () => {
           <option value="selectmake">Make</option>
             <option value="make">Toyota</option>
             <option value="make">Honda</option>
-            <option value="make">Suzuki</option>
+            <option value="make">BMW</option>
             <option value="make">Nissan</option>
-            <option value="make">Mazda</option>
+            <option value="make">Mercedez</option>
           </select>
         </FormGroup>
 
         <FormGroup className="select__group">
           <select name="model" value={formData.model} onChange={handleChange}> 
             <option value="selectmodel">Model</option>
-            <option value="make">Corolla</option>
-            <option value="make">Vezel</option>
-            <option value="make">Aqua</option>
-            <option value="make">Nissan Sunny</option>
-            <option value="make">Mazda RX8</option>
-            <option value="make">Toyota Revo</option>
-            <option value="make">Ciaz</option>
-            <option value="make">Wagon-R</option>
-            <option value="make">Civic</option>
-            <option value="make">Premio</option>
+            <option value="model">Toyota Corolla</option>
+            <option value="model">Toyoyta Aqua</option>
+            <option value="model">Nissan Mercielago</option>
+            <option value="model">Mercedez Benz XC90</option>
+            <option value="model">Toyota Camry</option>
+            <option value="model">BMW X3</option>
+            <option value="model">Honda Civic</option>
+            <option value="model">Mercedez Benz C63</option>
           </select>
         </FormGroup>
 
         <FormGroup className="form__group">
-          <input type="text" placeholder="Select City" />
+          <input type="text" placeholder="Select City"  />
         </FormGroup>
 
         <FormGroup className="form__group">
-          <input type="number" placeholder="Select Budget" />
+          <input type="digits" placeholder="Select Budget" />
         </FormGroup>
 
         <FormGroup className="select__group">
           <select name="variant" value={formData.variant} onChange={handleChange}>
             <option value="selectvariant">Variant</option>
-            <option value="ac">Automatic</option>
-            <option value="non-ac">Manual</option>
+            <option value="variant">Automatic</option>
+            <option value="variant">Manual</option>
           </select>
         </FormGroup>
 

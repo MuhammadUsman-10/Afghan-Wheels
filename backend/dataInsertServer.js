@@ -1,6 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const productschema = require('./models/productschema'); // Path might differ
+const productschema = require('./models/carschema'); // Path might differ
 const fs = require('fs');
 const path = require('path');
 const cors = require('cors');

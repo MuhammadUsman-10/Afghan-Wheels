@@ -1,12 +1,12 @@
 const mongoose = require('mongoose');
 
 // Define Product Schema
-const productschema = new mongoose.Schema({
+const carschema = new mongoose.Schema({
   name: {
     type: String,
     required: true
   },
-  formula: {
+  brand: {
     type: String,
     required: true
   },
@@ -14,7 +14,10 @@ const productschema = new mongoose.Schema({
     type: Number,
     required: true
   },
-  company:{
+  category:{
+    type: String
+  },
+  variant:{
     type: String
   },
   imageUrl: String,
@@ -25,6 +28,6 @@ const productschema = new mongoose.Schema({
 });
 
 // Define Product model
-const Product = mongoose.model('Product', productschema);
+const Car = mongoose.model('Product', carschema);
 
-module.exports = Product;
+module.exports = Car;
