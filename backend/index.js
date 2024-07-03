@@ -30,8 +30,8 @@ app.use('/api', login);
 const admin = require('./routes/adminRoutes.js');
 app.use('/api', admin);
 
-const search = require('./routes/carsRoutes.js');
-app.use('/api', search);
+const searchcar = require('./routes/carsRoutes.js');
+app.use('/api', searchcar);
 
 const submit = require('./routes/contactformRoutes.js');
 app.use('/api', submit);

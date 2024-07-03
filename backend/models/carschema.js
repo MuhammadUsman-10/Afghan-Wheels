@@ -2,12 +2,16 @@ const mongoose = require('mongoose');
 
 // Define Product Schema
 const carschema = new mongoose.Schema({
-  name: {
+  make: {
     type: String,
     required: true
   },
-  brand: {
+  model: {
     type: String,
+    required: true
+  },
+  rating: {
+    type: Number,
     required: true
   },
   price: {
@@ -15,12 +19,18 @@ const carschema = new mongoose.Schema({
     required: true
   },
   category:{
-    type: String
+    type: String,
+    required: true
   },
   variant:{
-    type: String
+    type: String,
+    required: true
   },
-  imageUrl: String,
+  city:{
+    type: String,
+    required: true
+  },
+  imageURL: {type: String},
   createdAt: {
     type: Date,
     default: Date.now
@@ -28,6 +38,6 @@ const carschema = new mongoose.Schema({
 });
 
 // Define Product model
-const Car = mongoose.model('Product', carschema);
+const Car = mongoose.model('Cars', carschema);
 
 module.exports = Car;

@@ -2,17 +2,17 @@ import React from "react";
 import { Container, Row } from "reactstrap";
 import Helmet from "../components/Helmet/Helmet";
 import CommonSection from "../components/UI/CommonSection";
-import BlogList from "../components/UI/BlogList";
+import VideoList from "../components/UI/VideoList";
 
-const Blog = () => {
+const Video = () => {
   return (
-    <Helmet title="Blogs">
-      <CommonSection title="Blogs" />
+    <Helmet title="Videos">
+      <CommonSection title="Videos" />
       <section>
         <Container>
           <Row>
-            <BlogList />
-            <BlogList />
+            <VideoList />
+            <VideoList />
           </Row>
         </Container>
       </section>
@@ -20,4 +20,4 @@ const Blog = () => {
   );
 };
 
-export default Blog;
+export default Video;

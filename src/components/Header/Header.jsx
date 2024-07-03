@@ -64,10 +64,6 @@ const Header = () => {
       {
         path: "/login",
         display: "Login",
-      },
-      {
-        path: "/register",
-        display: "Register",
       }
     ] : [])
   ];

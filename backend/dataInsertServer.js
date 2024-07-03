@@ -1,6 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const productschema = require('./models/carschema'); // Path might differ
+const carschema = require('./models/carschema'); // Path might differ
 const fs = require('fs');
 const path = require('path');
 const cors = require('cors');
@@ -10,14 +10,14 @@ const app = express();
 app.use(cors());
 
 // MongoDB Connection
-const uri = 'mongodb://127.0.0.1:27017/Med-Info'; 
+const uri = 'mongodb://127.0.0.1:27017/Afghan-Wheels'; 
 mongoose.connect(uri)
 
 const db = mongoose.connection;
 
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
-const dataPath = path.join(__dirname, './medinfo.json/medinfo.json');
+const dataPath = path.join(__dirname, './cars/cars-img/cars.json');
 
 fs.readFile(dataPath, 'utf8', async (err, data) => {
     if (err) {
@@ -26,8 +26,8 @@ fs.readFile(dataPath, 'utf8', async (err, data) => {
     }
 
     try {
-    const productsData = JSON.parse(data);
-    await productschema.insertMany(productsData);
+    const carsData = JSON.parse(data);
+    await carschema.insertMany(carsData);
     console.log('Data inserted successfully');
     
     } catch (error) {

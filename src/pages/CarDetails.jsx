@@ -9,14 +9,14 @@ import PaymentMethod from "../components/UI/PaymentMethod";
 const CarDetails = () => {
   const { slug } = useParams();
 
-  const singleCarItem = carData.find((item) => item.carName === slug);
+  const singleCarItem = carData.find((item) => item.model === slug);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [singleCarItem]);
 
   return (
-    <Helmet title={singleCarItem.carName}>
+    <Helmet title={singleCarItem.model}>
       <section>
         <Container>
           <Row>
@@ -26,7 +26,7 @@ const CarDetails = () => {
 
             <Col lg="6">
               <div className="car__info">
-                <h2 className="section__title">{singleCarItem.carName}</h2>
+                <h2 className="section__title">{singleCarItem.model}</h2>
 
                 <div className=" d-flex align-items-center gap-5 mb-4 mt-3">
                   <h6 className="rent__price fw-bold fs-4">
@@ -58,7 +58,7 @@ const CarDetails = () => {
                       className="ri-roadster-line"
                       style={{ color: "#f9a826" }}
                     ></i>{" "}
-                    {singleCarItem.model}
+                    {singleCarItem.category}
                   </span>
 
                   <span className=" d-flex align-items-center gap-1 section__description">
@@ -66,7 +66,7 @@ const CarDetails = () => {
                       className="ri-settings-2-line"
                       style={{ color: "#f9a826" }}
                     ></i>{" "}
-                    {singleCarItem.category}
+                    {singleCarItem.variant}
                   </span>
 
                   <span className=" d-flex align-items-center gap-1 section__description">
@@ -100,7 +100,7 @@ const CarDetails = () => {
                       className="ri-building-2-line"
                       style={{ color: "#f9a826" }}
                     ></i>{" "}
-                    {singleCarItem.brand}
+                    {singleCarItem.make}
                   </span>
                 </div>
               </div>
@@ -110,13 +110,6 @@ const CarDetails = () => {
               <div className="booking-info mt-5">
                 <h5 className="mb-4 fw-bold ">Booking Information</h5>
                 <BookingForm />
-              </div>
-            </Col>
-
-            <Col lg="5" className="mt-5">
-              <div className="payment__info mt-5">
-                <h5 className="mb-4 fw-bold ">Payment Information</h5>
-                <PaymentMethod />
               </div>
             </Col>
           </Row>

@@ -2,27 +2,28 @@ import React from "react";
 import { Col } from "reactstrap";
 import "../../styles/blog-item.css";
 import { Link } from "react-router-dom";
-import blogData from "../../assets/data/blogData";
+import ReactPlayer from "react-player";
+import videoData from "../../assets/data/videoData";
 
 const BlogList = () => {
   return (
     <>
-      {blogData.map((item) => (
-        <BlogItem item={item} key={item.id} />
+      {videoData.map((item) => (
+        <VideoItem item={item} key={item.id} />
       ))}
     </>
   );
 };
 
-const BlogItem = ({ item }) => {
-  const { imgUrl, title, author, date, description, time } = item;
+const VideoItem = ({ item }) => {
+  const { videoUrl, title, author, date, description, time } = item;
 
   return (
     <Col lg="4" md="6" sm="6" className="mb-5">
-      <div className="blog__item">
-        <img src={imgUrl} alt="" className="w-100" />
-        <div className="blog__info p-3">
-          <Link to={`/blogs/${title}`} className="blog__title">
+      <div className="video__item">
+        <ReactPlayer url={videoUrl} type="video/mp4" alt="" className="w-100" height="300px" controls={true} />
+        <div className="video__info p-3">
+          <Link to={`/videos/${title}`} className="video__title">
             {title}
           </Link>
           <p className="section__description mt-3">
@@ -31,12 +32,12 @@ const BlogItem = ({ item }) => {
               : description}
           </p>
 
-          <Link to={`/blogs/${title}`} className="read__more">
+          <Link to={`/videos/${title}`} className="read__more">
             Read More
           </Link>
 
-          <div className="blog__time pt-3 mt-3 d-flex align-items-center justify-content-between">
-            <span className="blog__author">
+          <div className="video__time pt-3 mt-3 d-flex align-items-center justify-content-between">
+            <span className="video__author">
               <i className="ri-user-line"></i> {author}
             </span>
 
