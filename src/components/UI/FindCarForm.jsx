@@ -2,46 +2,31 @@ import { useState } from "react";
 import React from "react";
 import { Link } from "react-router-dom";
 import "../../styles/find-car-form.css";
-import "../../styles/find-car-form.css";
-import { Col, Form, FormGroup } from "reactstrap";
+import { Col, Form, FormGroup, Input } from "reactstrap";
 import axios from "axios";
 
 const FindCarForm = () => {
-  const [formData, setFormData] = useState({
-    make: '',
-    model: '',
-    category: '',
-    variant: '',
-    city: '',
-    price: ''
-  });
+  const [category, setCategory] = useState('');
+  const [make, setMake] = useState('');
+  const [model, setModel] = useState('');
+  const [city, setCity] = useState('');
+  const [price, setPrice] = useState('500000');
+  const [variant, setVariant] = useState('');
   const [cars, setCars] = useState([]);
   const [searched, setSearched] = useState(false); 
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const formdData = {
+      category,
+      make,
+      model,
+      city,
+      price,
+      variant
+    };
     try {
-      // const filteredFormData = Object.keys(formData)
-      // .filter(key => formData[key] !== '')
-      // .reduce((acc, key) => ({
-      //     ...acc,
-      //     [key]: formData[key]
-      // }), {});
-      const filteredFormData = {};
-      for (const key in formData) {
-          if (formData[key] !== '') {
-              filteredFormData[key] = formData[key];
-          }
-      }
-      console.log('Filtered Form Data:', filteredFormData);
-      const response = await axios.post('http://localhost:4000/api/searchcar', filteredFormData);
+      const response = await axios.post('http://localhost:4000/api/searchcar', formdData);
       setCars(response.data);
       setSearched(true);
     } catch (error) {
@@ -54,48 +39,40 @@ const FindCarForm = () => {
       <div className=" d-flex align-items-center justify-content-between flex-wrap">
 
         <FormGroup className="select__group">
-          <select name="category" value={formData.category} onChange={handleChange}>
+          <select name="category" value={category} onChange={(e) => setCategory(e.target.value)}>
           <option value="">Category</option>
             <option value="New Car">New Car</option>
             <option value="Used Car">Used Car</option>
           </select>
         </FormGroup>
 
-        <FormGroup className="select__group">
-          <select name="make" value={formData.make} onChange={handleChange}>
-          <option value="">Make</option>
-            <option value="Toyota">Toyota</option>
-            <option value="Honda">Honda</option>
-            <option value="BMW">BMW</option>
-            <option value="Nissan">Nissan</option>
-            <option value="Mercedez">Mercedez</option>
-          </select>
-        </FormGroup>
-
-        <FormGroup className="select__group">
-          <select name="model" value={formData.model} onChange={handleChange}> 
-            <option value="">Model</option>
-            <option value="Toyota Corolla">Toyota Corolla</option>
-            <option value="Toyota Aqua">Toyoyta Aqua</option>
-            <option value="Nissan Mercielago">Nissan Mercielago</option>
-            <option value="Mercedez Benz XC90">Mercedez Benz XC90</option>
-            <option value="Toyota Camry">Toyota Camry</option>
-            <option value="BMW X3">BMW X3</option>
-            <option value="Honda Civic">Honda Civic</option>
-            <option value="Mercedez Benz C63">Mercedez Benz C63</option>
-          </select>
+        <FormGroup className="form__group">
+          <Input placeholder="Make" name="Make" value={make} onChange={(e) => setMake(e.target.value)}/>
         </FormGroup>
 
         <FormGroup className="form__group">
-          <input type="text" placeholder="Select City" name="city" value={formData.city} onChange={handleChange}  />
+          <Input placeholder="Model" name="Model" value={model} onChange={(e) => setModel(e.target.value)} /> 
         </FormGroup>
 
         <FormGroup className="form__group">
-          <input type="digits" placeholder="Select Budget" name="price" value={formData.price} onChange={handleChange} />
+          <Input type="text" placeholder="Select City" name="city" value={city} onChange={(e) => setCity(e.target.value)}  />
+        </FormGroup>
+
+        <FormGroup className="form__group">
+        <div className="d-flex align-items-center">
+          <Input type="range"
+          id="priceSlider"
+          name="price"
+          min="500000"
+          max="5000000"
+          step="50000" // Adjust step size if neede 
+          value={price} onChange={(e) => setPrice(e.target.value)} />
+          <span className="ms-3">{price.toLocaleString()}</span> {/* Display selected value */}
+        </div>
         </FormGroup>
 
         <FormGroup className="select__group">
-          <select name="variant" value={formData.variant} onChange={handleChange}>
+          <select name="variant" value={variant} onChange={(e) => setVariant(e.target.value)}>
             <option value="">Variant</option>
             <option value="Automatic">Automatic</option>
             <option value="Manual">Manual</option>
@@ -111,7 +88,7 @@ const FindCarForm = () => {
           <div className="row">
           {cars.length > 0 ? (
             cars.map((car, index) => (
-              <Col lg="4" md="4" sm="6" className="mb-5" key={index}>
+              <Col lg="5" md="4" sm="6" className="mb-5" key={index}>
                 <div className="car__item">
                   <div className="car__img">
                     <img src={`${car.imageURL}`} type="image/png" alt={`${car.make} ${car.model}`} className="w-100" />
@@ -132,7 +109,7 @@ const FindCarForm = () => {
                       </span>
                       {/* Assuming speed is a property of car */}
                       <span className=" d-flex align-items-center gap-1">
-                        <i className="ri-timer-flash-line"></i> {car.speed}
+                        <i className="ri-map-pin-line"></i> {car.city}
                       </span>
                     </div>
     

@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const admin = require("../models/adminschema");
+const Admin = require("../models/adminschema");
 
 // Middleware to verify admin token and role
 const authAdmin = async (req, res, next) => {
@@ -13,17 +13,21 @@ const authAdmin = async (req, res, next) => {
     const secretkey= "#hhfu7%jhf!y90#gyo02%";
     const tokenWithoutBearer = token.slice(7);
     const decoded = jwt.verify(tokenWithoutBearer, secretkey);
-    const admin = await admin.findById(decoded.admin._id);
+    const admin = await Admin.findById(decoded.admin._id);
     if (!admin){
       return res.status(500).json({message: "Admin not authenticated!"});
     }
     req.admin=admin;
+    if (!req.admin || !req.admin._id) {
+      return res.status(500).json({ message: 'Admin not properly authenticated' });
+    }
     if (req.admin.role !== "admin") {
       return res.status(403).json({ message: 'Access denied. Not authorized as an admin.' });
     }
     next();
   } catch (error) {
-    res.status(401).json({ message: 'Invalid token, Admin not Found.' });
+    console.error('Error in admin authentication middleware:', error);
+    res.status(401).json({ message: 'You are not Authorized!' });
   }
 };
 

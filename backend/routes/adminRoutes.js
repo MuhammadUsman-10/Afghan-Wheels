@@ -8,7 +8,7 @@ const router = express.Router();
 
 // Admin Sign-up endpoint
 router.post('/admin/signup', [
-  body('username').isLength({ min: 5 }).withMessage('Username should be at least 5 characters long'),
+  body('email').isEmail().withMessage('Please enter a valid email'),
   body('password').isLength({ min: 5 }).withMessage('Password should be at least 5 characters long')
 ], async (req, res) => {
   const errors = validationResult(req);
@@ -16,16 +16,16 @@ router.post('/admin/signup', [
     return res.status(400).json({ errors: errors.array() });
   }
 
-  const { username, password } = req.body;
+  const { email, password } = req.body;
 
   try {
-    const existingAdmin = await Admin.findOne({ username });
+    const existingAdmin = await Admin.findOne({ email });
     if (existingAdmin) {
       return res.status(400).json({ message: 'Admin already exists' });
     }
 
     const hashedPassword = await bcrypt.hash(password, 15);
-    const newAdmin = new Admin({ username, password: hashedPassword });
+    const newAdmin = new Admin({ email, password: hashedPassword });
     await newAdmin.save();
     res.status(200).json({ message: 'Admin registered successfully' });
   } catch (error) {
@@ -35,10 +35,10 @@ router.post('/admin/signup', [
 
 // Admin Sign-in endpoint
 router.post('/admin/signin', async (req, res) => {
-  const { username, password } = req.body;
+  const { email, password } = req.body;
 
   try {
-    const admin = await Admin.findOne({ username });
+    const admin = await Admin.findOne({ email });
     if (!admin) {
       return res.status(404).json({ message: 'Admin not found' });
     }

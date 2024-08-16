@@ -1,11 +1,40 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import { Container, Row, Col } from "reactstrap";
 import Helmet from "../components/Helmet/Helmet";
 import CommonSection from "../components/UI/CommonSection";
 import CarItem from "../components/UI/CarItem";
-import carData from "../assets/data/carData";
+import axios from 'axios';
 
 const CarListing = () => {
+  const [sortOption, setSortOption] = useState('select');
+  const [cars, setCars] = useState([]);
+
+  useEffect(() => {
+    const fetchCars = async () => {
+      try {
+        const response = await axios.get('http://localhost:4000/api/cars'); // Adjust the endpoint as necessary
+        setCars(response.data);
+      } catch (error) {
+        console.error('Error fetching car data:', error);
+      }
+    };
+
+    fetchCars();
+  }, []);
+  const handleSortChange = (e) => {
+    setSortOption(e.target.value);
+  };
+
+  const sortedCarData = [...cars].sort((a, b) => {
+    if (sortOption === 'low') {
+      return a.price - b.price;
+    } else if (sortOption === 'high') {
+      return b.price - a.price;
+    } else {
+      return 0; // Default order if 'select' is chosen
+    }
+  });
+  
   return (
     <Helmet title="Cars">
       <CommonSection title="Car Listing" />
@@ -19,7 +48,7 @@ const CarListing = () => {
                   <i className="ri-sort-asc"></i> Sort By
                 </span>
 
-                <select>
+                <select onChange={handleSortChange}>
                   <option>Select</option>
                   <option value="low">Low to High</option>
                   <option value="high">High to Low</option>
@@ -27,8 +56,8 @@ const CarListing = () => {
               </div>
             </Col>
 
-            {carData.map((item) => (
-              <CarItem item={item} key={item.id} />
+            {sortedCarData.map((car) => (
+              <CarItem key={car._id} item={car} />
             ))}
           </Row>
         </Container>

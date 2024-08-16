@@ -10,7 +10,7 @@ const userschema = new mongoose.Schema({
         required: true,
     },
     mobile: {
-        type: String,
+        type: Number,
         required: true,
         unique: true,
     },
@@ -26,6 +26,10 @@ const userschema = new mongoose.Schema({
     role: {
         type: String,
         default: "user"
+    },
+    verifyUser: {
+        type: Boolean,
+        default: false
     }
 });
 

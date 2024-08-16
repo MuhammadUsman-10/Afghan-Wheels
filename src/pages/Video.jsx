@@ -12,7 +12,7 @@ const Video = () => {
         <Container>
           <Row>
             <VideoList />
-            <VideoList />
+            {/* <VideoList /> */}
           </Row>
         </Container>
       </section>

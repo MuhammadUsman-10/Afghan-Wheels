@@ -4,13 +4,13 @@ import { Link } from "react-router-dom";
 import "../../styles/autoparts.css";
 
 const AutoPartItem = (props) => {
-    const { imgUrl, partName, price } = props.item;
+    const { imageUrl, partName, price } = props.item;
 
     return (
         <Col lg="4" md="4" sm="6" className="mb-5">
         <div className="part_item">
             <div className="part_img">
-            <img src={imgUrl} alt="" className="w-80" />
+            <img src={imageUrl} alt="" className="w-80" />
             </div>
 
             <div className="part_item-content mt-4">

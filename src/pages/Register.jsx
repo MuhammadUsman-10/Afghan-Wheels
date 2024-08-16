@@ -66,24 +66,22 @@ const Register = () => {
             email,
             password,
         });
-
-        // Handle successful signup
+        
         console.log(response.data);
         setSuccessMessage('User registered successfully');
-        
-        // Redirect to SignIn component after a brief delay
+
         setTimeout(() => {
-            navigate('/login');
+            navigate('/EmailVerification');
         }, 2000);
         } catch (error) {
-        // Handle signup errors
         if (error.response && error.response.data) {
             setErrorMessage(error.response.data.errors);
         } else {
-            console.error('Error signing up:', error.message);
+            console.error('Error verifying code:', error.message);
         }
         }
     };
+
     return (
         <Helmet title="Register">
         <CommonSection title="Register" />
@@ -92,7 +90,6 @@ const Register = () => {
             <Row>
                 <Col lg="7" md="7">
                 <h6 className="fw-bold mb-4">Register to Afghan Wheels</h6>
-
                 <Form>
                     <FormGroup className="contact__form">
                     <Input placeholder="Fisrt Name" type="text" 

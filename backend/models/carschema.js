@@ -10,10 +10,6 @@ const carschema = new mongoose.Schema({
     type: String,
     required: true
   },
-  rating: {
-    type: Number,
-    required: true
-  },
   price: {
     type: Number,
     required: true
@@ -30,7 +26,11 @@ const carschema = new mongoose.Schema({
     type: String,
     required: true
   },
-  imageURL: {type: String},
+  imageURL: String,
+  description:{
+    type: String,
+    required: true
+  },
   createdAt: {
     type: Date,
     default: Date.now

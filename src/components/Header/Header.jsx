@@ -1,72 +1,33 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Container, Row, Col, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from "reactstrap";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import React, { useRef, useState } from "react";
+import { Container, Row, Col } from "reactstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, NavLink } from "react-router-dom";
+import { logout } from "../../Redux/userActions";
 import "../../styles/header.css";
 
 const Header = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [User, setUser] = useState(null);
-  const [dropdownOpen, setDropdownOpen] = useState(false);
   const menuRef = useRef(null);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-  // Check if user data is saved in localStorage
-    const savedUser = JSON.parse(localStorage.getItem('User'));
-    console.log('savedUser from localStorage:', savedUser);
-    if (savedUser) {
-      try {
-        const parsedUser = JSON.parse(savedUser);
-        setIsLoggedIn(true);
-        setUser(parsedUser);
-      } catch (error) {
-        console.error("Failed to parse user data from localStorage:", error);
-      }setUser(savedUser);
-    }
-  }, []);
+  const dispatch =  useDispatch();
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
-
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
   const handleLogout = () => {
-      localStorage.removeItem('User');
-      setIsLoggedIn(false);
-      setUser(null);
-      navigate('/login');
+    dispatch(logout());
   };
 
   const toggleMenu = () => menuRef.current.classList.toggle("menu__active");
-  const navLinks = [
-    {
-      path: "/home",
-      display: "Home",
-    },
-    {
-      path: "/about",
-      display: "About",
-    },
-    {
-      path: "/cars",
-      display: "Cars",
-    },
-    {
-      path: "/autoparts",
-      display: "AutoParts",
-    },
-    {
-      path: "/videos",
-      display: "Videos",
-    },
-    {
-      path: "/contact",
-      display: "Contact",
-    },
-    ...(!isLoggedIn ? [
-      {
-        path: "/login",
-        display: "Login",
-      }
-    ] : [])
-  ];
+  const navLinks = 
+  [
+      { path: "/home", display: "Home" },
+      { path: "/about", display: "About" },
+      { path: "/cars", display: "Cars" },
+      { path: "/autoparts", display: "AutoParts" },
+      { path: "/videos", display: "Videos" },
+      { path: "/contact", display: "Contact" },
+      { path: "/login", display: "Login" },
+    ];
 
   return (
     <header className="header">
@@ -82,8 +43,18 @@ const Header = () => {
                 </span>
               </div>
             </Col>
-
             <Col lg="6" md="6" sm="6">
+            {userInfo ? (
+              <div className="header__top__right d-flex align-items-center justify-content-end gap-3">
+                <Link to="/userProfile" className=" d-flex align-items-center gap-1">
+                  <i class="ri-login-circle-line"></i> User Profile
+                </Link>
+
+                <Link to="#" className=" d-flex align-items-center gap-1" onClick={handleLogout}>
+                  <i class="ri-user-line"></i> Logout
+                </Link>
+              </div>
+            ) : (
               <div className="header__top__right d-flex align-items-center justify-content-end gap-3">
                 <Link to="/login" className=" d-flex align-items-center gap-1">
                   <i class="ri-login-circle-line"></i> Login
@@ -93,6 +64,7 @@ const Header = () => {
                   <i class="ri-user-line"></i> Register
                 </Link>
               </div>
+            )}
             </Col>
           </Row>
         </Container>
@@ -163,42 +135,85 @@ const Header = () => {
             <span className="mobile__menu">
               <i className="ri-menu-line" onClick={toggleMenu}></i>
             </span>
-
-            <div className="navigation" ref={menuRef} onClick={toggleMenu}>
+            { userInfo ? (
+              <div className="navigation" ref={menuRef} onClick={toggleMenu}>
               <div className="menu">
-                {navLinks.map((item, index) => (
-                  <NavLink
-                    to={item.path}
-                    className={(navClass) =>
-                      navClass.isActive ? "nav__active nav__item" : "nav__item"
-                    }
-                    key={index}
-                  >
-                    {item.display}
-                  </NavLink>
-                ))}
+                <NavLink
+                  to="/home"
+                  className={({ isActive }) =>
+                    isActive ? "nav__active nav__item" : "nav__item"
+                  }
+                >
+                  Home
+                </NavLink>
+                <NavLink
+                  to="/about"
+                  className={({ isActive }) =>
+                    isActive ? "nav__active nav__item" : "nav__item"
+                  }
+                >
+                  About
+                </NavLink>
+                <NavLink
+                  to="/cars"
+                  className={({ isActive }) =>
+                    isActive ? "nav__active nav__item" : "nav__item"
+                  }
+                >
+                  Cars
+                </NavLink>
+                <NavLink
+                  to="/autoparts"
+                  className={({ isActive }) =>
+                    isActive ? "nav__active nav__item" : "nav__item"
+                  }
+                >
+                  AutoParts
+                </NavLink>
+                <NavLink
+                  to="/videos"
+                  className={({ isActive }) =>
+                    isActive ? "nav__active nav__item" : "nav__item"
+                  }
+                >
+                  Videos
+                </NavLink>
+                <NavLink
+                  to="/contact"
+                  className={({ isActive }) =>
+                    isActive ? "nav__active nav__item" : "nav__item"
+                  }
+                >
+                  Contact
+                </NavLink>
+                  <div className="user-menu">
+                    <span className="user-initials" onClick={toggleDropdown}>
+                      Hi, {userInfo.firstname}
+                    </span>
+                    <div className={`dropdown ${dropdownOpen ? 'show' : ''}`}>
+                      <NavLink to="/userprofile" className="nav__item">User Profile</NavLink>
+                      <span className="nav__item" onClick={handleLogout}>Logout</span>
+                    </div>                  
+                  </div>
+                  </div>
+                  </div>
+              ) : (
+                <div className="navigation" ref={menuRef} onClick={toggleMenu}>
+                <div className="menu">
+                  {navLinks.map((item, index) => (
+                    <NavLink
+                      to={item.path}
+                      className={(navClass) =>
+                        navClass.isActive ? "nav__active nav__item" : "nav__item"
+                      }
+                      key={index}
+                    >
+                      {item.display}
+                    </NavLink>
+                  ))}
+                </div>
               </div>
-            </div>
-
-            <div className="nav__right">
-              <div className="search__box">
-                <input type="text" placeholder="Search" />
-                <span>
-                  <i className="ri-search-line"></i>
-                </span>
-              </div>
-              {isLoggedIn && User && (
-                <Dropdown nav isOpen={dropdownOpen} toggle={toggleDropdown}>
-                  <DropdownToggle nav caret>
-                    {User.firstname[0].toUpperCase()}{User.lastname[0].toUpperCase()}
-                  </DropdownToggle>
-                  <DropdownMenu>
-                    <DropdownItem onClick={() => navigate('/userprofile')}>User Profile</DropdownItem>
-                    <DropdownItem onClick={handleLogout}>Logout</DropdownItem>
-                  </DropdownMenu>
-                </Dropdown>
-              )}
-            </div>
+            )}
           </div>
         </Container>
       </div>

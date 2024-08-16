@@ -83,6 +83,7 @@
   border: none;
   outline: none;
   border-radius: 5px;
+  cursor: pointer;
 }
 
 .header__btn a {
@@ -97,6 +98,50 @@
 
 .header__btn a:hover {
   color: #fff;
+}
+/* User Menu Container */
+.user-menu {
+  position: relative;
+  /* display: inline-block; */
+}
+
+/* User Initials */
+.user-initials {
+  display: inline-block;
+  padding: 10px;
+  border-radius: 5%;
+  /* border: 1px solid #fff; */
+  background-color: #000d6b; /* Customize background color */
+  color: #fff; /* Customize text color */
+  font-size: 16px;
+}
+
+/* Dropdown Container */
+.dropdown {
+  display: none; /* Hide dropdown by default */
+  position: absolute;
+  right: 0;
+  top: calc(100% + 5px); /* Position below the user initials */
+  background-color: #000d6b; /* Customize background color */
+  border: 1px solid #ddd; /* Border around the dropdown */
+  border-radius: 4px; /* Rounded corners */
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Optional shadow */
+  z-index: 1; /* Ensure dropdown appears above other content */
+  width: 150px; /* Set a fixed width for the dropdown */
+  margin-top: 5px; 
+}
+
+/* Dropdown Item */
+.dropdown .nav__item {
+  display: block;
+  padding: 10px 15px;
+  color: #fff; /* Customize text color */
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.dropdown.show {
+  display: block; /* Show dropdown when 'show' class is added */
 }
 
 /* ================ main navbar styles =========== */
@@ -202,5 +247,9 @@
 
   .menu__active {
     display: block;
+  }
+  .dropdown {
+    right: 0; /* Adjust right position for mobile */
+    left: auto;
   }
 }

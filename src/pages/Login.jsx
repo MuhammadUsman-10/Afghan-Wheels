@@ -1,18 +1,33 @@
-import {React, useState} from "react";
+import React, {useState, useEffect} from "react";
 import { Link, useNavigate } from "react-router-dom";
+import {useSelector, useDispatch} from "react-redux"
 import { Container, Row, Col, Form, FormGroup, Input } from "reactstrap";
 import Helmet from "../components/Helmet/Helmet";
 import CommonSection from "../components/UI/CommonSection";
-import axios from "axios";
+import { login } from "../Redux/userActions"
+import Message from "../components/UI/error";
 import "../styles/contact.css";
 
 
-const Login = ({onLogin}) => {
+const Login = (location) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
     const navigate = useNavigate();
+
+    const dispatch = useDispatch();
+
+    const redirect = new URLSearchParams(location.search).get('redirect') || "/";
+
+    const userLogin = useSelector((state) => state.userLogin);
+    const { error, userInfo } = userLogin;
+
+    useEffect(() => {
+        if (userInfo) {
+            navigate(redirect);
+        }       
+    }, [navigate, userInfo, redirect]);
 
     const validateEmail = (email) => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -41,41 +56,14 @@ const Login = ({onLogin}) => {
             setErrorMessage('Please enter password.');
             return;
         }
-        try {
-        const response = await axios.post('http://localhost:4000/api/signin', {
-            email,
-            password,
-        });
-
-        const User = response.data.user;  // assuming the response includes user data
-
-        // Save user data in localStorage
-        localStorage.setItem('user', JSON.stringify('token'));
-
-        // Update the parent component with the login status and user data
-        onLogin(User);
-
-        // Handle successful sign-in
-        console.log(response.data);
-        setSuccessMessage('User Login successfully');
-
-        // Redirect to Home component after successful sign-in
-        navigate('/');
-
-        // Display success message (you may customize this message)
-        alert('Login successful');
-        } catch (error) {
-        // Handle sign-in errors
-        if (error.response && error.response.status === 404) {
-            setErrorMessage('User not found');
-        } else if (error.response && error.response.status === 401) {
-            setErrorMessage('Invalid password');
-        } else {
-            console.error('Error signing in:', error.message);
-            setErrorMessage('Error signing in. Please try again.');
-        }
-        }
+        
+            dispatch(login(email, password));
+        
+        setEmail('');
+        setPassword('');
+        
     };
+
     return (
         <Helmet title="Login">
         <CommonSection title="Login" />
@@ -88,15 +76,18 @@ const Login = ({onLogin}) => {
                 <Form onSubmit={handleSignIn}>
                     <FormGroup className="contact__form">
                     <Input placeholder="Email" type="email" 
-                    value={email} onChange={(e)=>setEmail(e.target.value)} />
+                    value={email} onChange={(e)=>setEmail(e.target.value)}
+                    autoComplete="off" />
                     </FormGroup>
                     
                     <FormGroup className="contact__form">
                     <Input placeholder="Password" type="password" 
-                    value={password} onChange={(e)=>setPassword(e.target.value)} />
+                    value={password} onChange={(e)=>setPassword(e.target.value)}
+                    autoComplete="off" />
                     </FormGroup>
 
                     {errorMessage && <p style={{color: 'red'}}>{errorMessage}</p>}
+                    {error && <Message variant="alert-danger"> {error} </Message>}
                     {successMessage && <p style={{color: 'green'}}>{successMessage}</p>}
                     <p>
                     Don't have an account? <Link to="/register">SignUp Here</Link>

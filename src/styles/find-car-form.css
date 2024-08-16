@@ -81,6 +81,11 @@
   outline: none;
 }
 
+#priceSlider {
+  width: 80%;
+  margin-bottom: 0;
+}
+
 @media only screen and (max-width: 992px) {
   .find__cars-left {
     padding: 65px 22px;

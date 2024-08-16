@@ -1,14 +1,28 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const fileUpload = require('express-fileupload')
 const userRoutes = require('./routes/userRoutes.js');
 const adminRoutes = require('./routes/adminRoutes.js');
 const carsRoutes = require('./routes/carsRoutes.js');
+const partRoutes = require("./routes/partRoutes.js")
 const contactformRoutes = require('./routes/contactformRoutes.js');
+const videoRoutes = require('./routes/videoroutes.js');
+const bookingRoutes = require('./routes/bookingRoutes.js');
 const cors = require('cors');
+
 
 const app = express();
 app.use(express.json());
-app.use(cors());
+const corsOptions = {
+  origin: 'http://localhost:3000', // Change this to the origin of your frontend app
+  methods: ['GET', 'POST', 'DELETE', 'PUT'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+};
+
+app.use(cors(corsOptions));
+app.use(fileUpload({
+    useTempFiles : true,
+}));
 
 const uri = 'mongodb://127.0.0.1:27017/Afghan-Wheels'; // Replace with your MongoDB URI
 mongoose.connect(uri);
@@ -30,11 +44,20 @@ app.use('/api', login);
 const admin = require('./routes/adminRoutes.js');
 app.use('/api', admin);
 
-const searchcar = require('./routes/carsRoutes.js');
-app.use('/api', searchcar);
+const car = require('./routes/carsRoutes.js');
+app.use('/api', car);
+
+const part = require('./routes/partRoutes.js');
+app.use('/api', part);
 
 const submit = require('./routes/contactformRoutes.js');
 app.use('/api', submit);
+
+const video = require('./routes/videoroutes.js');
+app.use('/api', video);
+
+const booking = require('./routes/bookingRoutes.js');
+app.use('/api', booking);
 
 
 
@@ -44,7 +67,11 @@ db.once('open', () => {
   app.use('/', userRoutes); // Mounting user authentication routes
   app.use('/', adminRoutes); // Mounting admin authentication routes // Mounting product authentication routes
   app.use('/', carsRoutes);
+  app.use('/', partRoutes);
   app.use('/', contactformRoutes);
+  app.use('/', videoRoutes);
+  app.use('/', bookingRoutes);
+
 
   // Home page route
   app.get('/', (req, res) => {
