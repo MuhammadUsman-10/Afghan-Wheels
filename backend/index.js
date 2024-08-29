@@ -83,3 +83,6 @@ db.once('open', () => {
   const PORT = process.env.PORT || 4000;
   app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
 });
+
+// Export the app for Vercel
+module.exports = app;
