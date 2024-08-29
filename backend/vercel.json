@@ -18,6 +18,6 @@
       ] , 
     "env": {
         "MONGODB_URI": "mongodb://127.0.0.1:27017/Afghan-Wheels",
-        "JWT_SECRET": "@djfsjjsv&khg#ggt452!i0%3J4KK"
+        "JWT_SECRET": "secretkey"
     }
 }
