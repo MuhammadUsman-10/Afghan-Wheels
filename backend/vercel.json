@@ -8,10 +8,14 @@
     ],
     "routes": [
         {
-            "src": "/(.*)",
-            "dest": "index.js"
+          "src": "/api/(.*)",
+          "dest": "/backend/index.js"
+        },
+        {
+          "src": "/(.*)",
+          "dest": "/backend/index.js"
         }
-    ],  
+      ] , 
     "env": {
         "MONGODB_URI": "mongodb://127.0.0.1:27017/Afghan-Wheels",
         "JWT_SECRET": "@djfsjjsv&khg#ggt452!i0%3J4KK"
