@@ -1,6 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const partschema = require('./models/parts.js'); // Path might differ
+const carschema = require('./models/carschema.js'); // Path might differ
 const fs = require('fs');
 const path = require('path');
 const cors = require('cors');
@@ -17,7 +17,7 @@ const db = mongoose.connection;
 
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
-const dataPath = path.join(__dirname, './autoparts/parts.json');
+const dataPath = path.join(__dirname, './cars/cars.json');
 
 fs.readFile(dataPath, 'utf8', async (err, data) => {
     if (err) {
@@ -26,8 +26,8 @@ fs.readFile(dataPath, 'utf8', async (err, data) => {
     }
 
     try {
-    const partsData = JSON.parse(data);
-    await partschema.insertMany(partsData);
+    const carsData = JSON.parse(data);
+    await carschema.insertMany(carsData);
     console.log('Data inserted successfully');
     
     } catch (error) {

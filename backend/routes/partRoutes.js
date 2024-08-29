@@ -28,9 +28,9 @@ router.get('/parts', async (req, res) => {
 });
 
   // Route to get car details by slug
-router.get('/parts/:slug', async (req, res) => {
+router.get('/parts/:id', async (req, res) => {
     try {
-        const part = await Part.findOne({ title: req.params.slug });
+        const part = await Part.findById(req.params.id);
     
         if (!part) {
             return res.status(404).json({ message: 'Part not found' });
@@ -69,20 +69,39 @@ router.post('/addpart' , async (req, res) => {
 });
 
   // Update a product by ID
-// router.put('/parts/:id', async (req, res) => {
-//     const { id } = req.params;
-//     const { partName, price, imageUrl, description } = req.body;
-//     try {
-//         const updatedProduct = await Part.findByIdAndUpdate(
-//             id,
-//             { partName, price, imageUrl, description },
-//             { new: true }
-//         );
-//         res.json(updatedProduct);
-//     } catch (error) {
-//         res.status(500).json({ error: error.message });
-//     }
-// });
+  router.put('/parts/:id', async (req, res) => {
+    const { partName, price, description } = req.body;
+    const file = req.files?.image;
+    const { id } = req.params;
+
+    try {
+        // Find the part to update
+        const part = await Part.findById(id);
+        if (!part) return res.status(404).json({ message: 'Part not found' });
+
+        // Update part details
+        part.partName = partName || part.partName;
+        part.price = price || part.price;
+        part.description = description || part.description;
+
+        // If a new image is provided, upload it and update the imageUrl
+        if (file) {
+            cloudinary.uploader.upload(file.tempFilePath, async (err, result) => {
+                if (err) return res.status(500).json({ errors: ['Server error'] });
+
+                part.imageUrl = result.url;
+                await part.save();
+                res.status(200).json({ message: 'Part updated successfully' });
+            });
+        } else {
+            // If no new image is provided, save part with updated details
+            await part.save();
+            res.status(200).json({ message: 'Part updated successfully' });
+        }
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
 
   // Delete a product by ID
 router.delete('/parts/:id', async (req, res) => {

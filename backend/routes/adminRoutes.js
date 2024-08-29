@@ -50,7 +50,13 @@ router.post('/admin/signin', async (req, res) => {
     const secretkey= "#hhfu7%jhf!y90#gyo02%";
     const token = jwt.sign({ admin }, secretkey);
 
-        res.status(200).json({ message: "Admin Sign-in successful", token }); // Sending the generated token in response
+        res.status(200);
+        res.json({
+          _id: admin._id,
+          email: admin.email,
+          role: admin.role,
+          token: token
+        }); // Sending the generated token in response
     
   } catch (error) {
     res.status(500).json({ message: 'Error signing in' });
@@ -58,10 +64,46 @@ router.post('/admin/signin', async (req, res) => {
 });
 
 
-router.get('/admin/dashboard', isAdmin.authAdmin, async (req, res) => {
-  const dashboardMessage = "Welcome to admin Dashboard";
-  // other components and admin profile
-  res.send(dashboardMessage);
+// Update a admin
+router.put('/admin/profile', isAdmin.authAdmin ,async (req, res) => {
+  const admin = await Admin.findById(req.admin._id);
+  if(admin){
+      admin.email = req.body.email || admin.email
+      admin.mobile = req.body.mobile || admin.mobile
+      if (req.body.password){
+          const hashedPassword = await bcrypt.hash(req.body.password, 10);
+          admin.password = hashedPassword;
+      }
+  
+      const updatedadmin = await admin.save();
+      res.json({
+          _id: updatedadmin._id,
+          email: updatedadmin.email,
+          role: updatedadmin.role
+      });
+  } else {
+      res.status(404)
+      throw new Error('Admin not found');
+  }  
+});
+
+router.get('/admin/profile', isAdmin.authAdmin ,async (req, res) => {
+  try {
+    const admin = await Admin.findById(req.admin._id);
+    if(admin){
+      res.json({
+      _id: admin._id,
+      email: admin.email,
+      role: admin.role,
+      }) 
+    }else {
+      res.status(404)
+      throw new Error('Admin not found');
+    } 
+  } catch (error) {
+    console.error('Error fetching admin:', error);
+    res.status(500).json({ error: 'Server error' });
+  } 
 });
 
 module.exports = router;

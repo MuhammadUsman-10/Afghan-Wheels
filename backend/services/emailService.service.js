@@ -7,39 +7,57 @@ const transporter = nodemailer.createTransport({
   port: 587,
   secure: false,
   auth: {
-    user: "harphostel@gmail.com",
-    pass: "enwt vprr trkh thed",
+    user: "afghanwheels889@gmail.com",
+    pass: "gwyw zrhz bnpz gsph",
   },
 });
 
-const EmailService = async (recipient, subject, message,name = "Zoom Invitation Link") => {
+const EmailService = async (recipient, subject, verificationLink,name = "Zoom Invitation Link") => {
 
 //   console.log(user);
-  if (recipient !== null) {
+  if (recipient!== null) {
     try {
+      const fullMessage = `Dear User,\n\nPlease click on the link below to verify your email:\n\n${verificationLink}\n\nThank you!`;
+      
       const msg = {
-        from: "harphostel@gmail.com",
+        from: "afghanwheels889@gmail.com",
         to: `${recipient}`,
         subject: `${subject}`,
-        text: `${message}`,
+        text: `${fullMessage}`,
       };
-      transporter
-        .sendMail(msg)
-        .then(() => {
-          return { message: "Send successfully" };
-        })
-        .catch((error) => {
-          console.log(error);
-          return{ message: "mail failed" };
-        });
+      await transporter.sendMail(msg);
+      return { message: "Send successfully" };
     } catch (error) {
-        return { message: error.stack };
-    //   res.status(404).json({ message: error });
+      console.log("Error sending email:", error);
+      return { message: "mail failed" };
     }
   } else {
     return { message: "You are not Registered" };
   }
 };
 
-module.exports = EmailService;
 
+const EmailSubscribe = async (recipient, subject, name = "Zoom Invitation Link") => {
+  //   console.log(user);
+  if (recipient) {
+    try {
+      const fullMessage = `Dear User,\nWelcome to Afghan Wheels.\nThanks for subscribing to our Newsletter!\n\nThanks & Regards,\nAfghan Wheels`;
+      const msg = {
+        from: "afghanwheels889@gmail.com",
+        to: `${recipient}`,
+        subject: `${subject}`,
+        text: `${fullMessage}`,
+      };
+      await transporter.sendMail(msg);
+      return { message: "Send successfully" };
+    } catch (error) {
+      console.log("Email sending failed:", error);
+      return { message: "Error Subscribing" };
+    }
+  } else {
+    return { message: "Error Subscribing" };
+  }
+};
+
+
+module.exports = {EmailService, EmailSubscribe};

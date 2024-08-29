@@ -1,8 +1,6 @@
 const express = require('express');
 const cloudinary = require('cloudinary').v2;
 const Car = require('../models/carschema');
-const Booking = require('../models/booking');
-const isAdmin = require ('../middleware/isAdmin');
 
 const router = express.Router();
 
@@ -47,14 +45,26 @@ router.get('/cars', async (req, res) => {
   }
 });
 
-// Route to get car details by slug
-router.get('/cars/:slug', async (req, res) => {
+router.get('/cars', async (req, res) => {
   try {
-    const { slug } = req.params;
-    console.log('Received slug:', slug); // Log the received slug
+    const {id}=req.params;
+    const product = await Car.findById(id);
 
-    // Query by model instead of _id
-    const car = await Car.findOne({ model: slug });
+    if (!product) {
+      return res.status(404).json({ error: 'Product not found' });
+    }
+
+    res.json(product);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Route to get car details by slug
+router.get('/cars/:id', async (req, res) => {
+  try {
+    // const { id } = req.params;
+    const car = await Car.findById(req.params.id);
 
     if (!car) {
       return res.status(404).json({ message: 'Car not found' });
@@ -95,6 +105,21 @@ router.post('/addcar' , async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
+//upload Image to cloudinary
+router.post('/upload', async (req, res) => {
+  const file = req.files?.image;
+  try {
+    cloudinary.uploader.upload(file.tempFilePath, async (err, result)=>{
+      if(err){
+        return res.status(500).json({ errors: ['Server error'] });
+      }
+      console.log(result);
+      res.status(201).json({ message: 'Image uploaded successfully', imageURL: result.url });
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
 
 // Update a product by ID
 router.put('/cars/:id', async (req, res) => {
@@ -113,7 +138,7 @@ router.put('/cars/:id', async (req, res) => {
 });
 
 // Delete a product by ID
-router.delete('/cars/:id', isAdmin.authAdmin, async (req, res) => {
+router.delete('/cars/:id', async (req, res) => {
   const { id } = req.params;
   try {
     const deletedProduct = await Car.findByIdAndDelete(id);
@@ -159,27 +184,5 @@ router.post('/becomeseller', async (req, res) => {
   }
 });
 
-router.post('/api/bookings', async (req, res) => {
-  try {
-    const { firstName, lastName, email, mobile, fromAddress, toAddress, additionalInfo } = req.body;
-
-    const newBooking = new Booking({
-      firstName,
-      lastName,
-      email,
-      mobile,
-      fromAddress,
-      toAddress,
-      additionalInfo,
-    });
-
-    await newBooking.save();
-
-    res.status(201).json({ message: 'Booking successfully created' });
-  } catch (error) {
-    console.error('Error creating booking:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-});
 
 module.exports = router;

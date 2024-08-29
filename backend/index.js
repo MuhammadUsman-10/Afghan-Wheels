@@ -1,6 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const fileUpload = require('express-fileupload')
+const cookieParser = require('cookie-parser');
 const userRoutes = require('./routes/userRoutes.js');
 const adminRoutes = require('./routes/adminRoutes.js');
 const carsRoutes = require('./routes/carsRoutes.js');
@@ -9,20 +9,23 @@ const contactformRoutes = require('./routes/contactformRoutes.js');
 const videoRoutes = require('./routes/videoroutes.js');
 const bookingRoutes = require('./routes/bookingRoutes.js');
 const cors = require('cors');
-
+const fileUpload = require('express-fileupload');
+;
 
 const app = express();
 app.use(express.json());
 const corsOptions = {
-  origin: 'http://localhost:3000', // Change this to the origin of your frontend app
+  origin: ['http://localhost:5173', 'http://localhost:3000'], // Change this to the origin of your frontend app
   methods: ['GET', 'POST', 'DELETE', 'PUT'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
+  allowedHeaders: ["Content-Type", "Authorization"],
 };
 
 app.use(cors(corsOptions));
 app.use(fileUpload({
-    useTempFiles : true,
+  useTempFiles: true,
 }));
+
+app.use(cookieParser());
 
 const uri = 'mongodb://127.0.0.1:27017/Afghan-Wheels'; // Replace with your MongoDB URI
 mongoose.connect(uri);
